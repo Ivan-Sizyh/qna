@@ -1,0 +1,10 @@
+header.navbar
+  = link_to "Qna", root_path
+  nav
+    p.navbar-right
+    - if current_user.present?
+      link = link_to "Sign out", destroy_user_session_path, method: :delete
+    - else
+      link = link_to "Sign in", new_user_session_path
+      link = link_to "Sign up", new_user_registration_path
+    end

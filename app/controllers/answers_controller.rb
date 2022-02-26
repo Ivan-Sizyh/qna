@@ -1,13 +1,20 @@
 class AnswersController < ApplicationController
-  expose :question, ->{ Question.find(params[:question_id]) }
-  expose :answer, parent: :question
+  before_action :authenticate_user!
+
+  expose :question
+  expose :answer, build: ->(answer_params){ Answer.new(answer_params.merge(question: question, author: current_user)) }
 
   def create
     if answer.save
-      redirect_to answer
+      redirect_to answer.question, notice: 'Your answer has been successfully created!'
     else
-      render :new
+      render 'questions/show'
     end
+  end
+
+  def destroy
+    answer.destroy
+    redirect_to question, notice: 'Your answer successfully deleted.'
   end
 
   private
