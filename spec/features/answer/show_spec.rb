@@ -18,4 +18,3 @@ feature 'The user can view the question and the answers to it', %q{
     end
   end
 end
-
