@@ -14,4 +14,20 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of :email }
     it { should validate_presence_of :password }
   end
+
+  describe 'methods' do
+    context 'is_author? method' do
+      let(:question) { create(:question) }
+      let(:user) { question.author }
+
+      it 'user author of the question' do
+        expect(user).to be_is_author(question)
+      end
+
+      it 'user not author of the question' do
+        user = create(:user)
+        expect(user).to_not be_is_author(question)
+      end
+    end
+  end
 end
