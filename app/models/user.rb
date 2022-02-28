@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :questions, dependent: :destroy, foreign_key: 'author_id'
   has_many :answers, dependent: :destroy, foreign_key: 'author_id'
 
-  def is_author?(specimen)
-    specimen.author_id == id
+  def is_author?(resource)
+    resource.author_id == id
   end
 end
