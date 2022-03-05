@@ -1,12 +1,16 @@
-h1= question.title
-p= question.body
+.question
+  = render question
 
--if current_user&.is_author?(question)
-  link= link_to 'Delete question', question_path(question), method:  :delete
-end
+.best-answer
+  -if question.best_answer
+    = render question.best_answer
+  end
 
 p= 'Answers:'
 
-= render question.answers
+.answers
+  = render without_best
+
+.answer-errors
 
 = render 'answers/form'

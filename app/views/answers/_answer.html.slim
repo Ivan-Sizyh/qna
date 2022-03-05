@@ -1,5 +1,23 @@
-p= answer.body
+.answer id = "answer-#{answer.id}"
+  p= answer.body
 
--if current_user&.is_author?(answer)
-  link= link_to 'Delete answer', question_answer_path(question, answer), method: :delete
-end
+  .errors
+    = render 'shared/errors', resource: answer
+
+  - if current_user&.is_author?(answer)
+    link= link_to 'Delete answer', question_answer_path(question, answer), remote: true, method: :delete
+    link= link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+  end
+
+  - if current_user&.is_author?(question) && (answer != question.best_answer)
+    link= link_to 'Select best',
+                  select_best_answer_question_path(id: question, answer_id: answer.id),
+                  class: 'select-best-link',
+                  remote: true,
+                  method: :patch
+  end
+
+  = form_with model: [question, answer], local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+    = f.submit 'Save'

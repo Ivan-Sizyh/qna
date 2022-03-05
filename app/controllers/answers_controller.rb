@@ -5,19 +5,18 @@ class AnswersController < ApplicationController
   expose :answer, build: ->(answer_params){ Answer.new(answer_params.merge(question: question, author: current_user)) }
 
   def create
-    if answer.save
-      redirect_to answer.question, notice: 'Your answer has been successfully created!'
-    else
-      render 'questions/show'
+    flash.now[:notice] = 'Your answer has been successfully created!' if answer.save
+  end
+
+  def update
+    if current_user.is_author?(answer)
+      flash.now[:notice] = 'Your answer has been successfully updated!' if answer.update(answer_params)
     end
   end
 
   def destroy
     if current_user.is_author?(answer)
-      answer.destroy
-      redirect_to question, notice: 'Your answer successfully deleted.'
-    else
-      redirect_to question
+      respond_to :js, flash.now[:notice] = 'Your answer successfully deleted.' if answer.destroy
     end
   end
 

@@ -6,7 +6,7 @@ feature 'Authenticate user can delete answer', %q{
 } do
   given!(:question) { create(:question, :with_answers) }
 
-  scenario 'Authenticate user is author and trying to delete the question' do
+  scenario 'Authenticate user is author and trying to delete the question', js: true do
     answer = question.answers.first
 
     sign_in(answer.author)

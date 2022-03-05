@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question) }
-
   before { login(user) }
 
   describe 'POST #create' do
@@ -30,35 +29,53 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'with valid attributes' do
-      it 'change question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-        question.reload
+    context 'User is author' do
+      before { login(question.author) }
 
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+      context 'with valid attributes' do
+        it 'change question attributes' do
+          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
+          question.reload
+
+          expect(question.title).to eq 'new title'
+          expect(question.body).to eq 'new body'
+        end
+
+        it 'render updated question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+          expect(response).to render_template :update
+        end
       end
-      it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+
+      context 'with invalid attributes' do
+        before do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        end
+
+        it 'does not change question' do
+          old_question = question
+
+          question.reload
+
+          expect(question.title).to eq old_question.title
+          expect(question.body).to eq old_question.body
+        end
+
+        it 're-renders edit update view' do
+          expect(response).to render_template :update
+        end
       end
     end
 
-    context 'with invalid attributes' do
-      before do
-        FactoryBot.rewind_sequences
-        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
-      end
+    context 'User is not author' do
+      it 'does not change the question' do
+        old_question = question
 
-      it 'does not change question' do
+        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
         question.reload
 
-        expect(question.title).to eq 'Title1'
-        expect(question.body).to eq 'MyText'
-      end
-
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+        expect(question.title).to eq old_question.title
+        expect(question.body).to eq old_question.body
       end
     end
   end

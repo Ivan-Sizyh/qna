@@ -16,7 +16,7 @@ feature 'User can create answer on question page', %q{
       visit question_path(question)
     end
 
-    scenario 'Authenticate user create answer' do
+    scenario 'Authenticate user create answer', js: true do
       fill_in 'Body', with: 'text text text'
       click_on 'Create Answer'
 
@@ -24,14 +24,14 @@ feature 'User can create answer on question page', %q{
       expect(page).to have_content 'text text text'
     end
 
-    scenario 'Authenticate user create answer with errors' do
+    scenario 'Authenticate user create answer with errors', js: true do
       click_on 'Create Answer'
 
       expect(page).to have_content "Body can't be blank"
     end
   end
 
-  scenario 'Unauthenticated user create answer' do
+  scenario 'Unauthenticated user create answer', js: true do
     visit question_path(question)
 
     click_on 'Create Answer'

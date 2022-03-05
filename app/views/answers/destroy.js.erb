@@ -1,0 +1,4 @@
+<% if answer.present? %>
+  $('#answer-<%= answer.id %>').remove();
+  $('.notice').text('<%= notice %>');
+<% end %>

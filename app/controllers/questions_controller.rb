@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   expose :question, build: ->(question_params){ current_user&.questions.new(question_params) }
   expose :questions, ->{ Question.all }
   expose :answer, ->{ question.answers.new }
+  expose :without_best, ->{ question.answers - [question.best_answer] }
 
   def create
     if question.save
@@ -14,10 +15,8 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to question
-    else
-      render :edit
+    if current_user.is_author?(question)
+      flash.now[:notice] = 'Your question has been successfully updated!' if question.update(question_params)
     end
   end
 
@@ -27,6 +26,12 @@ class QuestionsController < ApplicationController
       redirect_to questions_path, notice: 'Your question successfully deleted.'
     else
       redirect_to question
+    end
+  end
+
+  def set_best_answer
+    if current_user.is_author?(question)
+      question.update(best_answer_id: params[:answer_id])
     end
   end
 
