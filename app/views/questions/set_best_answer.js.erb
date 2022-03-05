@@ -1,0 +1,11 @@
+$('.errors').html('<%= render 'shared/errors', resource: question %>')
+
+<% unless question.errors.present? %>
+  <% if question.best_answer %>
+    bestAnswer = $('.best-answer');
+    bestAnswer.find('.answer').remove();
+    bestAnswer.append('<%= j render question.best_answer %>');
+    $('.answers').html('<%= j render without_best %>')
+  <% end %>
+  $('.notice').text('<%= notice %>');
+<% end %>

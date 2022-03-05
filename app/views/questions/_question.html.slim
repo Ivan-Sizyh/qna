@@ -1,0 +1,9 @@
+h1.question-title= question.title
+p.question-body= question.body
+
+= render 'questions/inline_edit_form'
+
+- if current_user&.is_author?(question)
+  link= link_to 'Delete question', question_path(question), method: :delete
+  link= link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
+end
