@@ -1,0 +1,6 @@
+$('#file-<%= file.id %>').remove()
+
+<% unless file.record.errors.present? %>
+  $('.notice').text('<%= notice %>');
+<% end %>
+
