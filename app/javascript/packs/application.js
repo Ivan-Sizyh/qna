@@ -6,6 +6,7 @@
 //= require jquery_ujs
 //= require foundation
 //= require turbolinks
+//= require activestorage
 //= require_tree.
 
 import Rails from "@rails/ujs"

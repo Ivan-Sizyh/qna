@@ -16,12 +16,25 @@ feature 'User can create answer on question page', %q{
       visit question_path(question)
     end
 
-    scenario 'Authenticate user create answer', js: true do
-      fill_in 'Body', with: 'text text text'
-      click_on 'Create Answer'
+    describe 'With correct data' do
+      background { fill_in 'Body', with: 'text text text' }
 
-      expect(page).to have_content 'Your answer has been successfully created!'
-      expect(page).to have_content 'text text text'
+      scenario 'user create answer', js: true do
+        click_on 'Create Answer'
+
+        expect(page).to have_content 'Your answer has been successfully created!'
+        expect(page).to have_content 'text text text'
+      end
+
+      scenario 'user create answer with attached files', js: true do
+        within '.new-answer' do
+          attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          click_on 'Create Answer'
+        end
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
     end
 
     scenario 'Authenticate user create answer with errors', js: true do

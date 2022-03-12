@@ -1,0 +1,6 @@
+$('.answer-errors').html('<%= render 'shared/errors', resource: answer %>');
+
+<% if answer.persisted? %>
+  $('#answer-<%= answer.id %>').html('<%= j render answer.reload %>');
+  $('.notice').text('<%= notice %>');
+<% end %>
