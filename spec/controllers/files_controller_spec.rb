@@ -26,7 +26,7 @@ RSpec.describe FilesController, type: :controller do
         expect { delete :destroy, params: { id: file }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-render answer' do
+      it 're-render question' do
         delete :destroy, params: { id: file }, format: :js
         expect(response).to render_template :destroy
       end

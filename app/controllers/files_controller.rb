@@ -5,6 +5,5 @@ class FilesController < ApplicationController
 
   def destroy
     file.purge if current_user&.is_author?(file.record)
-    file.purge if current_user&.is_author?(file.record)
   end
 end
