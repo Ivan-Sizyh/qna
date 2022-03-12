@@ -1,6 +1,16 @@
 h1.question-title= question.title
 p.question-body= question.body
 
+- if question.files.attached?
+  - question.files.each do |file|
+    .question-file id = "file-#{file.id}"
+      p= link_to file.filename.to_s, url_for(file)
+
+      - if current_user&.is_author?(question)
+        p= link_to 'Delete', delete_attached_file_question_path(question, file: file),
+                remote: true,
+                method: :delete
+
 = render 'questions/inline_edit_form'
 
 - if current_user&.is_author?(question)

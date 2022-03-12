@@ -4,4 +4,7 @@ $('.answer-errors').html('<%= render 'shared/errors', resource: answer %>');
   $('.answers').append('<%= j render answer %>');
   $('.notice').text('<%= notice %>');
   $('.new-answer #answer_body').val('');
+  fileForm = $('.new-answer-files #answer_files');
+  fileForm.val('');
+  fileForm.prop('disabled', false);
 <% end %>

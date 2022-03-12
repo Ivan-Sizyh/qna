@@ -4,6 +4,10 @@ RSpec.describe Answer, type: :model do
   describe 'associations' do
     it { should belong_to :question }
     it { should belong_to(:author).class_name('User') }
+
+    it 'have many attached file' do
+      expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+    end
   end
 
   describe 'validations' do
