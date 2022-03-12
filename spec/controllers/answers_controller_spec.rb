@@ -113,37 +113,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-
-  describe 'DELETE #delete_attached_file' do
-    let!(:answer) { create(:answer, :with_files) }
-    let(:question) { answer.question }
-    let(:file) { answer.files.first }
-
-    context 'User is author' do
-      before { login(answer.author) }
-
-      it 'deletes answer file' do
-        expect { delete :delete_attached_file, params: { id: answer, question_id: question, file: file }, format: :js }.to change(answer.files, :count).by(-1)
-      end
-
-      it 'redirects to question' do
-        delete :delete_attached_file, params: { id: answer, question_id: question, file: file }, format: :js
-        expect(response).to render_template :delete_attached_file
-      end
-    end
-
-    context 'User is not author' do
-      let(:user) { create(:user) }
-      before { login(user) }
-
-      it 'not deletes the answer file' do
-        expect { delete :delete_attached_file, params: { id: answer, question_id: question, file: file }, format: :js }.to_not change(answer.files, :count)
-      end
-
-      it 're-render answer' do
-        delete :delete_attached_file, params: { id: answer, question_id: question, file: file }, format: :js
-        expect(response).to render_template :delete_attached_file
-      end
-    end
-  end
 end

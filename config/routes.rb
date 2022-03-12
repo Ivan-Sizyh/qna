@@ -9,4 +9,6 @@ Rails.application.routes.draw do
     patch 'select_best_answer', action: :set_best_answer, on: :member
     delete 'delete_attached_file', action: :delete_attached_file, on: :member
   end
+
+  resources :files, only: :destroy
 end
