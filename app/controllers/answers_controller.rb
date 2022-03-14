@@ -21,12 +21,6 @@ class AnswersController < ApplicationController
     end
   end
 
-  def delete_attached_file
-    if current_user&.is_author?(answer)
-      answer.files.find(params[:file]).purge
-    end
-  end
-
   private
 
   def answer_params

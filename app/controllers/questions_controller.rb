@@ -36,12 +36,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def delete_attached_file
-    if current_user&.is_author?(question)
-      question.files.find(params[:file]).purge
-    end
-  end
-
   private
 
   def question_params
