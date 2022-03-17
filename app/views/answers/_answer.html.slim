@@ -11,6 +11,8 @@
                   remote: true,
                   method: :delete
 
+  =render 'shared/links', resource: answer
+
   .errors
     = render 'shared/errors', resource: answer
 
@@ -32,5 +34,11 @@
     p
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+    p Links:
+    #Links
+      = f.fields_for :links do |link|
+        = render 'shared/link_fields', f: link
+      .link
+        = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
 
-    p= f.submit 'Save'
+    p= f.submit 'Save', patch: :update

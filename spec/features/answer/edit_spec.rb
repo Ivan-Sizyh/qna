@@ -16,6 +16,9 @@ feature 'User can edit his answer', %q{
 
   describe 'Authenticated user' do
     describe 'User is author' do
+      given!(:link) { create(:link, name: 'youtube', url: 'https://www.youtube.com', linkable: answer) }
+      given(:google_url) { 'https://www.google.ru/' }
+
       before do
         sign_in(answer.author)
         visit question_path(question)
@@ -53,6 +56,17 @@ feature 'User can edit his answer', %q{
             expect(page).to_not have_selector 'textarea'
           end
         end
+
+        scenario 'edits his question with links', js: true do
+          within '.answers' do
+            fill_in 'Link name', with: 'edited link name'
+            fill_in 'Url', with: google_url
+
+            click_on 'Save'
+
+            expect(page).to have_link 'edited link name', href: google_url
+          end
+        end
       end
 
       scenario 'edits his answer with errors', js: true do
@@ -63,6 +77,18 @@ feature 'User can edit his answer', %q{
           expect(page).to have_content answer.body
           expect(page).to have_content "Body can't be blank"
           expect(page).to have_selector 'textarea'
+        end
+      end
+
+      scenario 'edits his question with not valid links', js: true do
+        within '.answers' do
+          fill_in 'Link name', with: 'edited link name'
+          fill_in 'Url', with: 'not valid link'
+
+          click_on 'Save'
+
+          expect(page).to_not have_link 'edited link name'
+          expect(page).to have_content 'Links url is not a valid URL'
         end
       end
     end

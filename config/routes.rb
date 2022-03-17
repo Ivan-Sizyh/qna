@@ -3,12 +3,11 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   resources :questions do
-    resources :answers, except: %i[index] do
-      delete 'delete_attached_file', action: :delete_attached_file, on: :member
-    end
+    resources :answers, except: %i[index]
     patch 'select_best_answer', action: :set_best_answer, on: :member
-    delete 'delete_attached_file', action: :delete_attached_file, on: :member
   end
 
   resources :files, only: :destroy
+  resources :links, only: :destroy
+  resources :rewards, only: :index
 end
