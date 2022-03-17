@@ -7,6 +7,7 @@
 //= require foundation
 //= require turbolinks
 //= require activestorage
+require("@nathanvda/cocoon")
 //= require_tree.
 
 import Rails from "@rails/ujs"

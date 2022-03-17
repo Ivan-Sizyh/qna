@@ -8,8 +8,14 @@ p.question-body= question.body
 
       - if current_user&.is_author?(question)
         p= link_to 'Delete', file_path(id: file),
-                remote: true,
-                method: :delete
+                             remote: true,
+                             method: :delete
+
+= render 'shared/links', resource: question
+
+- if question.reward.present?
+  p Reward:
+  =render question.reward
 
 = render 'questions/inline_edit_form'
 

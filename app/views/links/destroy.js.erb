@@ -1,0 +1,6 @@
+$('#link-<%= link.id %>').remove()
+
+<% unless link.errors.present? %>
+  $('.notice').text('<%= notice %>');
+<% end %>
+

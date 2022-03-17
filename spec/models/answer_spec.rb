@@ -5,6 +5,8 @@ RSpec.describe Answer, type: :model do
     it { should belong_to :question }
     it { should belong_to(:author).class_name('User') }
 
+    it { should have_many(:links).dependent(:destroy) }
+
     it 'have many attached file' do
       expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
     end
@@ -15,6 +17,8 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'methods' do
+    it { should accept_nested_attributes_for :links }
+
     context 'unset_best_answer method' do
       let(:question) { create(:question, :with_answers) }
       let(:user) { question.author }
