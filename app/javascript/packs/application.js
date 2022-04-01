@@ -16,6 +16,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "utilities/answers"
 import "utilities/inline_question_form"
+import "utilities/votes"
 
 Rails.start()
 Turbolinks.start()

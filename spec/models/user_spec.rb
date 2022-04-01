@@ -8,6 +8,8 @@ RSpec.describe User, type: :model do
     it do should have_many(:answers).dependent(:destroy)
                                       .with_foreign_key('author_id')
     end
+
+    it { should have_many(:votes).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -16,7 +18,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'methods' do
-    context 'is_author? method' do
+    context '#is_author?' do
       let(:question) { create(:question) }
       let(:user) { question.author }
 
@@ -27,6 +29,26 @@ RSpec.describe User, type: :model do
       it 'user not author of the question' do
         user = create(:user)
         expect(user).to_not be_is_author(question)
+      end
+    end
+
+    context 'voting methods' do
+      let(:voted_question) { create(:question) }
+      let(:question) { create(:question) }
+      let(:user) { create(:user) }
+
+      context '#vote' do
+        it 'resource has user vote' do
+          vote = create(:vote, votable: voted_question, author: user, up: true)
+          expect(user.vote(voted_question)).to eq vote
+        end
+      end
+
+      context '#voted_from?' do
+        it 'user has been vote on question later' do
+          create(:vote, votable: voted_question, author: user, up: true)
+          expect(user.voted_for?(voted_question)).to be_truthy
+        end
       end
     end
   end

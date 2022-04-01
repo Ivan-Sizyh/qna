@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+  it_behaves_like 'votable'
+
   describe 'associations' do
     it { should belong_to(:author).class_name('User') }
     it do
