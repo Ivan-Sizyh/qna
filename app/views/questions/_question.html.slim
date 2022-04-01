@@ -1,6 +1,8 @@
 h1.question-title= question.title
 p.question-body= question.body
 
+= render 'shared/votes', resource: question
+
 - if question.files.attached?
   - question.files.each do |file|
     .question-file id = "file-#{file.id}"

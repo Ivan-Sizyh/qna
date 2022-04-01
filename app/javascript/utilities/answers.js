@@ -3,18 +3,21 @@ $(document).on('turbolinks:load', function(){
         e.preventDefault();
         $(this).hide();
         let answerId = $(this).data('answerId');
-        console.log(answerId)
+        console.log(answerId);
         $('form#edit-answer-' + answerId).removeClass('hidden');
     })
 
     $('form.new-answer').on('ajax:success', function(e) {
-        let xhr = e.detail[2];
+        let answer = e.detail[0];
 
-        $('.answers').append(xhr.responseText);
+        $('.answers').append('<p>' + answer.body + '</p>');
     })
         .on('ajax:error', function (e) {
-            let xhr = e.detail[2];
+            let errors = e.detail[0];
 
-            $('.answer-errors').html(xhr.responseText);
+            $.each(errors, function(index, value) {
+                $('.answer-errors').append('<p>' + value + '</p>');
+            })
+
         })
 });
