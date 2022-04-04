@@ -6,6 +6,6 @@ module Votable
   end
 
   def score
-    votes.where(:up => true).count - votes.where(:up => false).count
+    votes.sum(:up)
   end
 end

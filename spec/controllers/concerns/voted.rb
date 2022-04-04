@@ -10,7 +10,7 @@ RSpec.shared_examples_for "voted" do
       before { login(model.author) }
 
       it 'didnt create vote' do
-        expect { post :vote, params: { id: model, up: true, votable: model_name, format: :json } }.to_not change(model.votes, :count)
+        expect { post :vote, params: { id: model, up: 1, votable: model_name, format: :json } }.to_not change(model.votes, :count)
       end
     end
 
@@ -18,11 +18,11 @@ RSpec.shared_examples_for "voted" do
       before { login(user) }
 
       it 'create vote' do
-        expect { post :vote, params: { id: model, up: true, votable: model_name, format: :json } }.to change(model.votes, :count).by(1)
+        expect { post :vote, params: { id: model, up: 1, votable: model_name, format: :json } }.to change(model.votes, :count).by(1)
       end
 
       it 'render model with stats' do
-        post :vote, params: { id: model, up: true, votable: model_name, format: :json }
+        post :vote, params: { id: model, up: 1, votable: model_name, format: :json }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -32,7 +32,7 @@ RSpec.shared_examples_for "voted" do
     it 'user is author vote' do
       login(user)
 
-      post :vote, params: { id: model, up: true, votable: model_name }
+      post :vote, params: { id: model, up: 1, votable: model_name }
       expect { delete :unvote, params: { id: model, votable: model_name, format: :json } }.to change(model.votes, :count).by(-1)
     end
 
