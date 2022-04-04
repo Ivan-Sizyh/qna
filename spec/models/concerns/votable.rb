@@ -7,8 +7,8 @@ RSpec.shared_examples_for "votable" do
   let(:user) { create(:user) }
 
   it "#score" do
-    create(:vote, author: user, votable: model, up: true)
-    score = model.votes.where(:up => true).count - model.votes.where(:up => false).count
+    create(:vote, author: user, votable: model, up: 1)
+    score = model.votes.sum(:up)
     expect(model.score).to eq(score)
   end
 end
