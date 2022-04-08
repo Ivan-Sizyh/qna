@@ -1,0 +1,2 @@
+$('#<%= @comment.commentable_type.underscore %>-<%= @comment.commentable_id %> .comment-errors')
+    .html('<%= render 'shared/errors', resource: @comment %>')

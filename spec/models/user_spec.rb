@@ -8,6 +8,9 @@ RSpec.describe User, type: :model do
     it do should have_many(:answers).dependent(:destroy)
                                       .with_foreign_key('author_id')
     end
+    it do should have_many(:comments).dependent(:destroy)
+                                    .with_foreign_key('author_id')
+    end
 
     it { should have_many(:votes).dependent(:destroy) }
   end
