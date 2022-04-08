@@ -3,8 +3,4 @@ p= link_to 'Ask question', new_question_path
 -if current_user.present?
   p= link_to 'Your rewards', rewards_path
 
-ul
-  - questions.each do |question|
-    li.question
-      link Title: #{link_to question.title, question_path(question)}
-      div Text:  #{ question.body }
+ul.questions-list = render questions

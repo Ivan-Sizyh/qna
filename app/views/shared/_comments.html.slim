@@ -1,0 +1,6 @@
+.comment-errors
+
+ul.comments
+  = render resource.comments
+- if current_user.present?
+  = render 'comments/form', resource: resource
