@@ -7,8 +7,10 @@
 //= require foundation
 //= require turbolinks
 //= require activestorage
+require("@rails/actioncable")
 require("@nathanvda/cocoon")
-//= require_tree.
+//= require action_cable
+//= require_tree .
 
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
@@ -21,3 +23,6 @@ import "utilities/votes"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+const App = App || {};
+App.cable = ActionCable.createConsumer();

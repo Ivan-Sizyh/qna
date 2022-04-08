@@ -1,0 +1,7 @@
+= form_with model: Comment.new, remote: true, local: false do |f|
+  = f.label :text
+  = f.text_field :text
+  = hidden_field_tag :commentable_type, resource.class.to_s
+  = hidden_field_tag :commentable_id, resource.id
+
+  = f.submit 'Comment'
