@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: [:create]
 
+  load_and_authorize_resource
+
   expose :question
   expose :answer, find: ->(id){ Answer.with_attached_files.find(id) },
          build: ->(answer_params){ Answer.new(answer_params.merge(question: question, author: current_user)) }
@@ -20,15 +22,11 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user&.is_author?(answer)
-      flash.now[:notice] = 'Your answer has been successfully updated!' if answer.update(answer_params)
-    end
+    flash.now[:notice] = 'Your answer has been successfully updated!' if answer.update(answer_params)
   end
 
   def destroy
-    if current_user&.is_author?(answer)
-      respond_to :js, flash.now[:notice] = 'Your answer successfully deleted.' if answer.destroy
-    end
+    answer.destroy
   end
 
   private

@@ -9,7 +9,7 @@
               = javascript_include_tag("#{link.url}.js")
             - else
               li= link_to link.name, link.url, target: :blank
-            - if current_user&.is_author?(resource)
+            - if current_user && can?(:destroy, link)
               p= link_to "Delete", link_path(link),
                       method: :delete,
                       remote: true
