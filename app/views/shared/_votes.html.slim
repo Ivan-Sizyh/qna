@@ -1,7 +1,7 @@
 div class="#{resource.class.to_s.downcase}-voting"
   p= "Score: #{resource.score}"
-  - if current_user && !current_user.is_author?(resource)
-    - if current_user&.voted_for?(resource)
+  - if current_user && can?(:vote, resource)
+    - if current_user && can?(:unvote, resource)
       link= link_to 'UP', polymorphic_path(resource, action: :vote, id: resource, up: 1), class: 'vote-link hidden', remote: true, method: :post
       link= link_to 'DOWN', polymorphic_path(resource, action: :vote, id: resource, up: -1), class: 'vote-link hidden', remote: true, method: :post
       link= link_to 'Cancel', polymorphic_path(resource, action: :unvote, id: resource), class: 'cancel-link', remote: true, method: :delete

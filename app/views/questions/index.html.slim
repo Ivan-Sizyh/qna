@@ -1,6 +1,6 @@
 p= link_to 'Ask question', new_question_path
 
--if current_user.present?
+-if current_user
   p= link_to 'Your rewards', rewards_path
 
 ul.questions-list = render questions

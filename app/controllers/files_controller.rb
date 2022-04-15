@@ -3,7 +3,9 @@ class FilesController < ApplicationController
 
   expose :file, find: ->(id){ ActiveStorage::Attachment.find(id) }
 
+  authorize_resource
+
   def destroy
-    file.purge if current_user&.is_author?(file.record)
+    file.purge
   end
 end

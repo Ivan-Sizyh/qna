@@ -88,6 +88,20 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer) }
     let!(:question) { create(:question) }
 
+    context 'User is not author' do
+      let(:user) { create(:user) }
+      before { login(user) }
+
+      it 'not deletes the answer' do
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
+      end
+
+      it 're-render answer' do
+        delete :destroy, params: { id: answer, question_id: question }, format: :js
+        expect(response).to have_http_status :forbidden
+      end
+    end
+
     context 'User is author' do
       before { login(answer.author) }
 
@@ -96,20 +110,6 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to question' do
-        delete :destroy, params: { id: answer, question_id: question }, format: :js
-        expect(response).to render_template :destroy
-      end
-    end
-
-    context 'User is not author' do
-      let(:user) { create(:user) }
-      before { login(user) }
-
-      it 'not deletes the answer' do
-        expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.to_not change(Answer, :count)
-      end
-
-      it 're-render answer' do
         delete :destroy, params: { id: answer, question_id: question }, format: :js
         expect(response).to render_template :destroy
       end

@@ -6,7 +6,7 @@
       .answer-file id = "file-#{file.id}"
         p= link_to file.filename.to_s, url_for(file)
 
-        - if current_user&.is_author?(answer)
+        - if current_user && can?(:destroy, file)
           p= link_to 'Delete', file_path(id: file),
                   remote: true,
                   method: :delete
@@ -16,11 +16,11 @@
   .errors
     = render 'shared/errors', resource: answer
 
-  - if current_user&.is_author?(answer)
+  - if current_user && can?(:destroy, answer) && can?(:update, answer)
     link= link_to 'Delete answer', answer_path(answer), class: 'optional-link', remote: true, method: :delete
     link= link_to 'Edit answer', '#', class: 'optional-link edit-answer-link', data: { answer_id: answer.id }
 
-  - if current_user&.is_author?(answer.question) && (answer != answer.question.best_answer)
+  - if current_user && can?(:select_best_answer, answer.question) && (answer != answer.question.best_answer)
     link= link_to 'Select best',
             select_best_answer_question_path(id: question, answer_id: answer.id),
             class: 'optional-link select-best-link',
