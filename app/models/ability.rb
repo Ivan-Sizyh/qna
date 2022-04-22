@@ -29,6 +29,7 @@ class Ability
     can :set_best_answer, Question, author_id: user.id
     can :destroy, ActiveStorage::Attachment, { record: { author_id: user.id } }
     can :destroy, Link, { linkable: { author_id: user.id } }
+    can :me, User, user_id: user.id
 
     can :vote, [Question, Answer] do |resource|
       !user.is_author?(resource)
