@@ -1,7 +1,7 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   expose :question
   expose :answer, find: ->(id){ Answer.with_attached_files.find(id) },
-         build: ->(answer_params){ Answer.new(answer_params.merge(question: question, author: current_user)) }
+         build: ->(answer_params){ Answer.new(answer_params.merge(question: question, author: current_resource_owner)) }
 
   load_and_authorize_resource
 
