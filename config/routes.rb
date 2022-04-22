@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  use_doorkeeper
+
   concern :votable do
     member do
       post :vote
@@ -20,4 +22,16 @@ Rails.application.routes.draw do
   resources :comments, only: :create
 
   mount ActionCable.server => '/cable'
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: %i[index] do
+        get :me, on: :collection
+      end
+
+      resources :questions do
+        resources :answers, shallow: true
+      end
+    end
+  end
 end
