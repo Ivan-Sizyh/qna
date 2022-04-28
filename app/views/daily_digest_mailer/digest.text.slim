@@ -1,0 +1,10 @@
+h1 DailyDigest
+p = "Hello from QNA!"
+p = "All questions created today:"
+
+ul
+  - @questions.each do |question|
+    li
+      p = question.title
+      p = question.body
+      p= question.author.email

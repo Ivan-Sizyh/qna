@@ -108,13 +108,11 @@ GEM
     case_transform (0.2)
       activesupport
     childprocess (4.1.0)
+    chronic (0.10.2)
     cocoon (1.2.15)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
-    database_cleaner-active_record (2.0.1)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     decent_exposure (3.0.4)
       activesupport (>= 4.0)
     devise (4.8.1)
@@ -171,6 +169,8 @@ GEM
     minitest (5.15.0)
     msgpack (1.4.5)
     multi_json (1.15.0)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
     net-protocol (0.1.2)
       io-wait
       timeout
@@ -192,6 +192,8 @@ GEM
     rack (2.2.3)
     rack-mini-profiler (2.3.3)
       rack (>= 1.2.0)
+    rack-protection (2.2.0)
+      rack
     rack-proxy (0.7.2)
       rack
     rack-test (1.1.0)
@@ -230,6 +232,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.6.0)
     regexp_parser (2.2.1)
     request_store (1.5.1)
       rack (>= 1.4)
@@ -254,6 +257,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -272,6 +276,15 @@ GEM
     semantic_range (3.0.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
+    sidekiq (6.4.2)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
+    sinatra (2.2.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.2.0)
+      tilt (~> 2.0)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -318,6 +331,8 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.5.4)
@@ -334,7 +349,6 @@ DEPENDENCIES
   cancancan
   capybara (>= 3.26)
   cocoon
-  database_cleaner-active_record
   decent_exposure (~> 3.0)
   devise
   doorkeeper
@@ -355,15 +369,17 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   shoulda-matchers (~> 5.0)
+  sidekiq
+  sinatra
   slim-rails
   spring
   turbolinks (~> 5)
   tzinfo-data
   validate_url
-  warden
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
+  whenever
 
 RUBY VERSION
    ruby 3.1.0p0

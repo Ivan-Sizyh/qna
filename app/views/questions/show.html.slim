@@ -25,7 +25,16 @@
   - if current_user && can?(:destroy, question) && can?(:update, question)
     link= link_to 'Delete question', question_path(question), method: :delete
     link= link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
-  end
+
+  p
+    - if can?(:create, question.subscriptions) && can?(:destroy, question.subscriptions)
+      - if current_user.subscribe?(question)
+        link= link_to 'Unsubscribe', subscriptions_path(id: current_user.subscribe(question)), method: :delete, remote: true
+      - else
+        link= link_to 'Subscribe',
+                subscriptions_path(question_id: question),
+                method: :post,
+                remote: true
 
   = render 'shared/comments', resource: question, current_user: current_user
 
