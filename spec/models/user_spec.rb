@@ -13,6 +13,7 @@ RSpec.describe User, type: :model do
     end
 
     it { should have_many(:votes).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -51,6 +52,33 @@ RSpec.describe User, type: :model do
         it 'user has been vote on question later' do
           create(:vote, votable: voted_question, author: user, up: true)
           expect(user.voted_for?(voted_question)).to be_truthy
+        end
+      end
+    end
+
+    context 'subscribe methods' do
+      let(:question) { create(:question) }
+      let(:author) { question.author }
+      let(:user) { create(:user) }
+      let(:subscription) { question.subscriptions.where(user: author).first }
+
+      context 'subscribe' do
+        it 'user subscribed' do
+          expect(author.subscribe(question)).to eq subscription
+        end
+
+        it 'user not subscribed' do
+          expect(user.subscribe(question)).to eq nil
+        end
+      end
+
+      context 'subscribe?' do
+        it 'user subscribed' do
+          expect(author).to be_subscribe(question)
+        end
+
+        it 'user not subscribed' do
+          expect(user).to_not be_subscribe(question)
         end
       end
     end

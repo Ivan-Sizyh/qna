@@ -68,5 +68,8 @@ describe Ability, type: :model do
         it { should_not be_able_to :unvote, create(:question, author: other) }
       end
     end
+
+    it { should be_able_to :create, Subscription }
+    it { should be_able_to :destroy, Subscription }
   end
 end

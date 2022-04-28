@@ -13,11 +13,16 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
+  after_create :notify_subscribers
   before_destroy :unset_best_answer
 
   private
 
   def unset_best_answer
     question.update(best_answer_id: nil) if question.best_answer_id == id
+  end
+
+  def notify_subscribers
+    AnswerNotificationJob.perform_later(self)
   end
 end

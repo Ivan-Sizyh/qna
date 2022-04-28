@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy, foreign_key: 'author_id'
   has_many :votes, dependent: :destroy, foreign_key: 'author_id'
   has_many :comments, dependent: :destroy, foreign_key: 'author_id'
+  has_many :subscriptions, dependent: :destroy
 
   def is_author?(resource)
     resource.author_id == id
@@ -23,5 +24,13 @@ class User < ApplicationRecord
 
   def voted_for?(resource)
     vote(resource).present?
+  end
+
+  def subscribe(question)
+    subscriptions.find_by(question_id: question.id)
+  end
+
+  def subscribe?(question)
+    subscribe(question).present?
   end
 end

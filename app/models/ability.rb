@@ -37,5 +37,8 @@ class Ability
     can :unvote, [Question, Answer] do |resource|
       user.voted_for?(resource)
     end
+
+    can :create, Subscription, user_id: user.id
+    can :destroy, Subscription, user_id: user.id
   end
 end
