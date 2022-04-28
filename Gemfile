@@ -31,30 +31,21 @@ gem 'net-smtp'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'slim-rails'
-
 gem 'decent_exposure', '~> 3.0'
-
 gem 'devise'
-
 gem 'jquery-rails'
-
 gem 'bootstrap'
-
 gem 'aws-sdk-s3'
-
 gem 'cocoon'
-
 gem 'validate_url'
-
 gem 'gon'
-
 gem 'cancancan'
-
-gem 'warden'
-
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -18,5 +18,9 @@ FactoryBot.define do
     trait :with_files do
       files { [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")] }
     end
+
+    trait :with_subscription do
+      subscriptions { [FactoryBot.create(:subscription)] }
+    end
   end
 end

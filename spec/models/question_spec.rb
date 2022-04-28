@@ -13,6 +13,7 @@ RSpec.describe Question, type: :model do
 
     it { should have_many(:answers).dependent(:destroy) }
     it { should have_many(:links).dependent(:destroy) }
+    it { should have_many(:subscriptions).dependent(:destroy) }
     it { should have_one(:reward).dependent(:destroy) }
 
     it { should accept_nested_attributes_for :links }
@@ -29,5 +30,14 @@ RSpec.describe Question, type: :model do
 
   describe 'methods' do
     it { should accept_nested_attributes_for :links }
+  end
+
+  describe 'reputation' do
+    let(:question) { build(:question) }
+
+    it 'calls ReputationJob' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
+    end
   end
 end
